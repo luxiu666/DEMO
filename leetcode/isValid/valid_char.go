@@ -34,6 +34,43 @@ package main
 
 import "fmt"
 
+func pair(c string) string {
+	switch {
+	case c == ")":
+		return "("
+	case c == "]":
+		return "["
+	case c == "}":
+		return "{"
+	}
+	return ""
+}
+
+func isValid(s string) bool {
+	length := len(s)
+	stack := make([]string, length)
+	top := 0
+	//字符非偶数直接返回false
+	if length%2 == 1 {
+		return false
+	}
+	for _, v := range s {
+		_char := string(v)
+		ch := pair(_char)
+		if ch != "" {
+			if top == 0 || stack[top-1] != ch {
+				return false
+			}
+			top--
+		} else {
+			stack[top] = _char
+			top++
+		}
+	}
+	return top == 0
+}
+
 func main() {
-	fmt.Printf("hello")
+	str := "{()}"
+	fmt.Println(isValid(str))
 }
